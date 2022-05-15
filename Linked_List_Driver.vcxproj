@@ -140,6 +140,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Driver.cpp" />
+    <ClCompile Include="Linked_List.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Linked_List.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

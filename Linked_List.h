@@ -37,6 +37,8 @@ class Linked_List
 		Linked_List& operator = (Linked_List && rr_List);
 		// Deep copy assignment overloaded operator
 		Linked_List& operator = (const Linked_List& l_List); 
+		
+		bool operator == (const Linked_List& l_list); 
 
 		// Function members declarations 
 		void add_First(int data); 

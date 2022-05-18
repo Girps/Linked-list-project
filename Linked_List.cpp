@@ -77,6 +77,30 @@ Linked_List& Linked_List::operator = (Linked_List&& rr_List)
 	return *this; 
 }
 
+/* Bool returning function, compares size and data between linked lists*/
+bool Linked_List::operator == (const Linked_List& l_list) 
+{
+	if (this->size != l_list.size) 
+	{
+		return false; 
+	}
+	else 
+	{
+		Node* this_Ptr{ this->head }; 
+		Node* other_Ptr{ l_list.head }; 
+		while (this_Ptr != nullptr) 
+		{
+			if (this_Ptr->data != other_Ptr->data) 
+			{
+				return false; 
+			}
+			this_Ptr = this_Ptr->next;
+			other_Ptr = other_Ptr->next;
+		}
+	}
+
+	return true; 
+}
 
 /* Linked list destructor calls free_node function member to destruct each
 	node and deallocate it in the linked list*/

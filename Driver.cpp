@@ -13,7 +13,19 @@ Linked_List ret_LList();
 
 int main() 
 {
-	// Deleted some stuff
+	Linked_List list, list2; 
+	list.add_First(1);
+	list2.add_First(2);
+	list2.add_First(2);
+
+	if (list == list2) 
+	{
+		printf("True");
+	}
+	else
+	{
+		printf("False");
+	}
 	return 0; 
 
 }

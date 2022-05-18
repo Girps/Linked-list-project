@@ -1,5 +1,6 @@
 #include "Linked_List.h"
 #include <iostream>
+#include <stack>
 
 /* Linked list default constructor initializes pointer members to nullptr*/
 Linked_List::Linked_List()
@@ -13,20 +14,20 @@ Linked_List::Linked_List()
 Linked_List::~Linked_List()
 {
 	free_Nodes(); 
-	std::cout << "Linked_List freed"; 
+	std::cout << "\nLinked_List freed"; 
 }
 
 /* Overloaed Node constructor will 1 prameter initalizes data and pointer*/
 Linked_List::Node::Node(int data_Pram)
 	:data{ data_Pram }, next{nullptr}
 {
-	std::cout << "Node " << data << " allocated";
+	std::cout << "\nNode " << data << " allocated";
 }
 
 /* Destructs Node*/
 Linked_List::Node::~Node() 
 {
-	std::cout << "Node " << data << " destroyed"; 
+	std::cout << "~[" << data << "]";
 }
 
 /* Void function destructors and deallocates each node in the linked list using 
@@ -97,7 +98,6 @@ void Linked_List::remove_First()
 		head = head->next;
 		// Delete previous head node
 		delete temp;
-
 	}
 }
 
@@ -112,7 +112,7 @@ void Linked_List::remove_Last()
 		Node* cursor = head; 
 
 		// Locate Node before tail node and reassign node pointer memebers
-		while (cursor != tail) 
+		while (cursor->next != tail) 
 		{
 			// Traverse next node
 			cursor = cursor->next; 
@@ -125,29 +125,48 @@ void Linked_List::remove_Last()
 }
 
 /* Void function memeber inserts Node index specified by the arugment*/
-void Linked_List::insert_Node(int index) 
+void Linked_List::insert_Node(int data, int index) 
 {
-	if (index < 0 || index >= 8)
+	if (index < 0 || index >= get_Size())
 	{
 		throw out_of_range{};
 	}
+	else if (index == 0) 
+	{
+		add_First(data); 
+	}
+	else if (index == get_Size())
+	{
+		add_Last(data); 
+	}
 	else 
 	{
-		
+		int count = index-1; 
+		// Allocate and intialize node 
+		Node* temp = create_Node(data);
+		Node* cursor = head; 
+		while (count != 0) 
+		{
+			count--; 
+			cursor = cursor->next; 
+		}
+		// Move pointers 
+		temp->next = cursor->next; 
+		cursor->next = temp; 
 	}
 }
 
 /* Bool returning function member linear searches list for argument passed on to it*/
-bool Linked_List::search(const int &data_Pram) 
+bool Linked_List::search(const int &data_Pram) const
 {
 	Node* cursor{ head };
 	while (cursor != nullptr) 
 	{
-		cursor = cursor->next; 
 		if (cursor->data == data_Pram) 
 		{
 			return 1; 
 		}
+		cursor = cursor->next;
 	}
 	return 0; 
 }
@@ -180,8 +199,55 @@ void Linked_List::remove_Node(int data)
 		delete cursor;
 	}
 }
+
 /* Node* returning function member allocates and initalizes a node on the heap */
 Linked_List::Node* Linked_List::create_Node(int data_Pram)
 {
 	return new Node(data_Pram); 
+}
+
+/* Void returning function traverses list and outputs data in node */
+void Linked_List::traverse_List() const
+{
+	std::cout << "\n"; 
+	Node* cursor = head; 
+	// Iterate until it reaches the end of the list 
+	while (cursor != nullptr) 
+	{
+		std::cout << "[ " << cursor->data << " ]---";
+		cursor = cursor->next; 
+	}
+	std::cout << "\n"; 
+}
+/* Void function uses the stack data structure to reassign pointers of each node to their prior node*/
+void Linked_List::reverse_list() 
+{
+	int size = this->get_Size(); 
+	std::stack<Node*>loc_Stack;
+	Node* cursor = head; 
+	// Push node addresses onto the stack
+	for (int i = 0; i < size; i++) 
+	{
+		loc_Stack.push(cursor);
+		cursor = cursor->next; 
+	}
+	Node* temp{ nullptr }; 
+	Node* new_Head{ tail };
+	Node* new_Tail{ head }; 
+	// Top and pop stack and reassign pointers 
+	for (int i =0; i < size; i++) 
+	{
+		temp = loc_Stack.top(); 
+		loc_Stack.pop(); 
+		if (loc_Stack.empty()) 
+		{
+			temp->next = nullptr;
+		}
+		else
+		{
+			temp->next = loc_Stack.top();
+		}
+	}
+	head = new_Head; 
+	tail = new_Tail; 
 }

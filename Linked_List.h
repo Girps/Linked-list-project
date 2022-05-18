@@ -16,11 +16,11 @@ class Linked_List
 			// Node Destructor 
 			~Node(); 
 		};
-
+		// private data fields 
 		Node* head; 
 		Node* tail; 
 		int list_Size; 
-
+		// private function memebers
 		Node* create_Node(int data); 
 		void free_Nodes(); 
 	public:
@@ -28,14 +28,16 @@ class Linked_List
 		Linked_List(); 
 		// Destructor 
 		~Linked_List();
-		// I litterally changing some stuff
+	
 		// Function members declarations 
 		void add_First(int data); 
 		void add_Last(int data); 
 		void remove_First(); 
 		void remove_Last(); 
-		void insert_Node(int index); 
-		void remove_Node(int data); 
+		void insert_Node(int data,int index);  
 		int get_Size();
-		bool search(const int &data); 
+		bool search(const int &data) const; 
+		void remove_Node(int data);
+		void traverse_List() const;
+		void reverse_list(); 
 };

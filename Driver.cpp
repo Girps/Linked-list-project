@@ -1,7 +1,9 @@
 #include <iostream>
 #include "Linked_List.h"
 #include <time.h>
-#include <stack>
+
+
+
 void add_First_Test( Linked_List& rr_list, int n, int range); 
 void add_Last_Test(Linked_List& rr_list, int n, int range);
 void remove_First_Test(Linked_List& rr_List, int n); 
@@ -11,25 +13,7 @@ Linked_List ret_LList();
 
 int main() 
 {
-
-	// Allocate UDT on the stack
-	Linked_List list; 
-	
-	list = ret_LList(); 
-	list.traverse_List(); 
-	printf("%d", list.get_Size());
-
-	list.free_Nodes(); 
-	list.traverse_List();
-	printf("%d", list.get_Size());
-
-	add_First_Test(list,10,10);
-	printf("%d", list.get_Size());
-
-	list.traverse_List(); 
-	list = ret_LList(); 
-	printf("%d", list.get_Size());
-	list.traverse_List(); 
+	// Deleted some stuff
 	return 0; 
 
 }

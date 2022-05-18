@@ -3,14 +3,16 @@
 #include <stack>
 
 /* Linked list default constructor initializes pointer members to nullptr*/
-Linked_List::Linked_List()
+template<typename T>
+Linked_List<T>::Linked_List()
 	:head{ nullptr }, tail{ nullptr }, size{0}
 {
 	std::cout << "Linked_list default constructor"; 
 }
 
 /* Deep copy constructor passes by const reference linked list copies data into current instance*/
-Linked_List::Linked_List(const Linked_List& rr_List)
+template<typename T>
+Linked_List<T>::Linked_List(const Linked_List& rr_List)
 	:head{ nullptr }, tail{ nullptr }, size{0}
 {
 	printf("Deep copy constructor called\n");
@@ -24,7 +26,8 @@ Linked_List::Linked_List(const Linked_List& rr_List)
 }
 
 /* Move constructor passess RR sturcture and gives resources to calling construtor object*/
-Linked_List::Linked_List(Linked_List&& rr_List) 
+template<typename T>
+Linked_List<T>::Linked_List(Linked_List&& rr_List) 
 {
 	printf("\nMove constructor called\n");
 	// Assign this instances pointers to rr_List pointer memebers 
@@ -39,7 +42,8 @@ Linked_List::Linked_List(Linked_List&& rr_List)
 
 /*Assigment overloaded operator copies data from lvalue onto calling function object list 
 	returns a refences to support assignment chaining */
-Linked_List& Linked_List::operator = (const Linked_List& l_List) 
+template<typename T>
+Linked_List<T>& Linked_List<T>::operator = (const Linked_List& l_List) 
 {
 	printf("Deep assignement copy called\n");
 	// If this instance list is not empty free it 
@@ -63,7 +67,8 @@ Linked_List& Linked_List::operator = (const Linked_List& l_List)
 
 /*Move assignment operators passess RR structures and gives resources to calling function object
 	and returns calling object instance to support assigment chaining */
-Linked_List& Linked_List::operator = (Linked_List&& rr_List) 
+template<typename T>
+Linked_List<T>& Linked_List<T>::operator = (Linked_List&& rr_List) 
 {
 	printf("Move assignment copy called\n");
 	// Assign this instances pointers to rr_List pointer memebers 
@@ -78,7 +83,8 @@ Linked_List& Linked_List::operator = (Linked_List&& rr_List)
 }
 
 /* Bool returning function, compares size and data between linked lists*/
-bool Linked_List::operator == (const Linked_List& l_list) 
+template<typename T>
+bool Linked_List<T>::operator == (const Linked_List& l_list) 
 {
 	if (this->size != l_list.size) 
 	{
@@ -104,28 +110,32 @@ bool Linked_List::operator == (const Linked_List& l_list)
 
 /* Linked list destructor calls free_node function member to destruct each
 	node and deallocate it in the linked list*/
-Linked_List::~Linked_List()
+template<typename T>
+Linked_List<T>::~Linked_List()
 {
 	free_Nodes(); 
 	std::cout << "\nLinked_List freed"; 
 }
 
 /* Overloaed Node constructor will 1 prameter initalizes data and pointer*/
-Linked_List::Node::Node(int data_Pram)
+template<typename T>
+Linked_List<T>::Node::Node(T data_Pram)
 	:data{ data_Pram }, next{nullptr}
 {
 	std::cout << "\nNode " << data << " allocated";
 }
 
 /* Destructs Node*/
-Linked_List::Node::~Node() 
+template<typename T>
+Linked_List<T>::Node::~Node() 
 {
 	std::cout << "~[" << data << "]";
 }
 
 /* Void function destructors and deallocates each node in the linked list using 
 	local pointers and loop control structure*/
-void Linked_List::free_Nodes() 
+template<typename T>
+void Linked_List<T>::free_Nodes() 
 {
 	Node* cursor{ head };
 	Node* doomed{ cursor }; 
@@ -146,7 +156,8 @@ void Linked_List::free_Nodes()
 }
 
 /* Void member function adds a node to head of the linked list*/
-void Linked_List::add_First(int data) 
+template<typename T>
+void Linked_List<T>::add_First(T data) 
 {
 	// Increment size
 	this->size++; 
@@ -167,7 +178,8 @@ void Linked_List::add_First(int data)
 }
 
 /* Void memeber function will add a node at end of the linked_list*/
-void Linked_List::add_Last(int data_Pram) 
+template<typename T>
+void Linked_List<T>::add_Last(T data_Pram) 
 {
 	// Increment size
 	this->size++;
@@ -187,7 +199,8 @@ void Linked_List::add_Last(int data_Pram)
 }
 
 /* Void memeber function removes the first node in the list*/
-void Linked_List::remove_First() 
+template<typename T>
+void Linked_List<T>::remove_First() 
 {
 	if (head != nullptr) 
 	{
@@ -204,7 +217,8 @@ void Linked_List::remove_First()
 }
 
 /* Void member function removes the last node in the list*/
-void Linked_List::remove_Last() 
+template<typename T>
+void Linked_List<T>::remove_Last() 
 {
 	if (tail != nullptr) 
 	{
@@ -229,7 +243,8 @@ void Linked_List::remove_Last()
 }
 
 /* Void function memeber inserts Node index specified by the arugment*/
-void Linked_List::insert_Node(int data, int index) 
+template<typename T>
+void Linked_List<T>::insert_Node(T data, int index) 
 {
 	if (index < 0 || index >= this->size)
 	{
@@ -263,7 +278,8 @@ void Linked_List::insert_Node(int data, int index)
 }
 
 /* Bool returning function member linear searches list for argument passed on to it*/
-bool Linked_List::search(const int &data_Pram) const
+template<typename T>
+bool Linked_List<T>::search(const T &data_Pram) const
 {
 	Node* cursor{ head };
 	while (cursor != nullptr) 
@@ -278,14 +294,16 @@ bool Linked_List::search(const int &data_Pram) const
 }
 
 /* Int returning getter function returns size of list*/
-int Linked_List::get_Size() const 
+template<typename T>
+int Linked_List<T>::get_Size() const 
 {
 	return this->size; 
 }
 
 /* Void memeber function iterates through the list compares data if found delete it from the
 	list*/
-void Linked_List::remove_Node(int data) 
+template<typename T>
+void Linked_List<T>::remove_Node(T data) 
 {
 	Node* cursor = head; 
 	if (search(data) == true) 
@@ -301,13 +319,15 @@ void Linked_List::remove_Node(int data)
 }
 
 /* Node* returning function member allocates and initalizes a node on the heap */
-Linked_List::Node* Linked_List::create_Node(int data_Pram)
+template<typename T>
+typename Linked_List<T>::Node* Linked_List<T>::create_Node(T data_Pram)
 {
 	return new Node(data_Pram); 
 }
 
 /* Void returning function traverses list and outputs data in node */
-void Linked_List::traverse_List() const
+template<typename T>
+void Linked_List<T>::traverse_List() const
 {
 	std::cout << "\n"; 
 	Node* cursor = head; 
@@ -321,7 +341,8 @@ void Linked_List::traverse_List() const
 }
 
 /* Void function uses the stack data structure to reassign pointers of each node to their prior node*/
-void Linked_List::reverse_list() 
+template<typename T>
+void Linked_List<T>::reverse_list() 
 {
 	std::stack<Node*>loc_Stack;
 	Node* cursor = head; 

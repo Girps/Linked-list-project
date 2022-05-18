@@ -2,6 +2,7 @@
 
 struct out_of_range {};
 
+template<typename T>
 class Linked_List 
 { 		
 	private: 
@@ -10,10 +11,10 @@ class Linked_List
 		struct Node 
 		{
 			// Node data fields 
-			int data; 
+			T data; 
 			Node* next;
 			// Overloaded explicit constructor 
-			explicit Node(int pram_Data);
+			explicit Node(T pram_Data);
 			// Node Destructor 
 			~Node(); 
 		};
@@ -23,7 +24,7 @@ class Linked_List
 		int size;
 
 		// private function memebers
-		Node* create_Node(int data);  
+		Node* create_Node(T data);  
 	public:
 		// Default Constructor
 		Linked_List(); 
@@ -41,14 +42,14 @@ class Linked_List
 		bool operator == (const Linked_List& l_list); 
 
 		// Function members declarations 
-		void add_First(int data); 
-		void add_Last(int data); 
+		void add_First(T data); 
+		void add_Last(T data); 
 		void remove_First(); 
 		void remove_Last(); 
-		void insert_Node(int data,int index);  
+		void insert_Node(T data,int index);  
 		int get_Size() const; 
-		bool search(const int &data) const; 
-		void remove_Node(int data);
+		bool search(const T &data) const; 
+		void remove_Node(T data);
 		void traverse_List() const;
 		void reverse_list(); 
 		void free_Nodes();

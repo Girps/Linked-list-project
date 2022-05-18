@@ -1,35 +1,32 @@
 #include <iostream>
 #include "Linked_List.h"
+#include "Linked_List.cpp"
 #include <time.h>
+#include <string>
 
-
-
-void add_First_Test( Linked_List& rr_list, int n, int range); 
-void add_Last_Test(Linked_List& rr_list, int n, int range);
-void remove_First_Test(Linked_List& rr_List, int n); 
-void remove_Last_Test(Linked_List& rr_List,int n);
-void test_Search(const Linked_List & rr_list,int n,int range);
-Linked_List ret_LList(); 
+template<typename T>
+void add_First_Test( Linked_List<T>& rr_list, int n, int range);
+template<typename T>
+void add_Last_Test(Linked_List<T>& rr_list, int n, int range);
+template<typename T>
+void remove_First_Test(Linked_List<T>& rr_List, int n);
+template<typename T>
+void remove_Last_Test(Linked_List<T>& rr_List,int n);
+template<typename T>
+void test_Search(const Linked_List<T>& rr_list,int n,int range);
+template<typename T>
+Linked_List<T> ret_LList(); 
 
 int main() 
 {
-	Linked_List list, list2; 
-	list.add_First(1);
-	list2.add_First(2);
-	list2.add_First(2);
-
-	if (list == list2) 
-	{
-		printf("True");
-	}
-	else
-	{
-		printf("False");
-	}
+	Linked_List<std::string> list; 
+	list.add_First("jesse");
+	list.traverse_List(); 
 	return 0; 
 
 }
-Linked_List ret_LList() 
+template<typename T>
+Linked_List<T> ret_LList() 
 {
 	Linked_List rr_List; 
 	printf("\nMove test function called\n");
@@ -43,8 +40,8 @@ Linked_List ret_LList()
 	}
 	return rr_List; 
 }
-
-void test_Search(const Linked_List& rr_List, int n, int range) 
+template<typename T>
+void test_Search(const Linked_List<T>& rr_List, int n, int range) 
 {
 	printf("Search function called\n");
 	// Iterate n amount of times search for random numbers 0 to range - 1
@@ -59,7 +56,8 @@ void test_Search(const Linked_List& rr_List, int n, int range)
 }
 
 /* void returngin function adds node at the end of the list n amount of times and range of 0 to (range - 1)*/
-void add_Last_Test(Linked_List& rr_list, int n, int range) 
+template<typename T>
+void add_Last_Test(Linked_List<T>& rr_list, int n, int range) 
 {
 	printf("Add last function called\n");
 	int num{ 0 };
@@ -72,7 +70,8 @@ void add_Last_Test(Linked_List& rr_list, int n, int range)
 }
 
 /* Void function passes LL by ref and pushes size_Amount of of random integers between 0 and range-1  */
-void add_First_Test( Linked_List& rr_list, int size_Amount, int range)
+template<typename T>
+void add_First_Test( Linked_List<T>& rr_list, int size_Amount, int range)
 {
 	printf("Add first function called\n");
 	int num{ 0 }; 
@@ -85,7 +84,8 @@ void add_First_Test( Linked_List& rr_list, int size_Amount, int range)
 }
 
 /* Void remove amount of nodes in a linked list depending on value of remove_Amount*/
-void remove_First_Test(Linked_List& rr_List, int n) 
+template<typename T>
+void remove_First_Test(Linked_List<T>& rr_List, int n) 
 {
 	printf("Remove first function called\n");
 	// remove first node n amount of times
@@ -94,7 +94,9 @@ void remove_First_Test(Linked_List& rr_List, int n)
 		rr_List.remove_First(); 
 	}
 }
-void remove_Last_Test(Linked_List& rr_List, int n) 
+
+template<typename T>
+void remove_Last_Test(Linked_List<T>& rr_List, int n) 
 {
 	printf("Add last function called\n");
 

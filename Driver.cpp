@@ -15,25 +15,21 @@ int main()
 	// Allocate UDT on the stack
 	Linked_List list; 
 	
-	Linked_List sec_List; 
-	add_First_Test(sec_List, 5, 10);
-	printf("Sec list nodes");
-	sec_List.traverse_List(); 
-	// Deep deep copy assignemnt operator
-	list = sec_List; 
-	printf("list nodes");
-	list.traverse_List(); 
-	list.add_First(69);
-	sec_List.traverse_List();
-	list.traverse_List(); 
-
-	// Move assignment called 
 	list = ret_LList(); 
 	list.traverse_List(); 
+	printf("%d", list.get_Size());
 
-	Linked_List list3 = list;
-	list3.add_First(69);
-	list3.traverse_List(); 
+	list.free_Nodes(); 
+	list.traverse_List();
+	printf("%d", list.get_Size());
+
+	add_First_Test(list,10,10);
+	printf("%d", list.get_Size());
+
+	list.traverse_List(); 
+	list = ret_LList(); 
+	printf("%d", list.get_Size());
+	list.traverse_List(); 
 	return 0; 
 
 }

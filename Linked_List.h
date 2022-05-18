@@ -4,7 +4,7 @@ struct out_of_range {};
 
 class Linked_List 
 { 		
-	public: 
+	private: 
 
 		/*Nested Node class store data and pointers to other nodes*/
 		struct Node 

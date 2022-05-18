@@ -7,56 +7,49 @@ void add_Last_Test(Linked_List& rr_list, int n, int range);
 void remove_First_Test(Linked_List& rr_List, int n); 
 void remove_Last_Test(Linked_List& rr_List,int n);
 void test_Search(const Linked_List & rr_list,int n,int range);
-
+Linked_List ret_LList(); 
 
 int main() 
 {
-	/*std::stack<int> s; 
-	s.push(1);
-	s.push(2);
-	s.push(3);
-	s.push(4);
-	s.push(5);
-
-
-	printf("%d",s.size());
-	printf("%d", s.top());
-	s.pop(); 
-	printf("%d",s.top());*/
-	
 
 	// Allocate UDT on the stack
 	Linked_List list; 
-	// Set seed to the PC clock
-	srand(time(NULL));
-
-	// Test first and last function memebers
-	add_First_Test(list, 5, 10);
-	list.traverse_List();
-	remove_First_Test(list,2); 
-	list.traverse_List();
-	add_Last_Test(list, 2, 10);
-	list.traverse_List(); 
-	remove_Last_Test(list, 2);
-	list.traverse_List(); 
-
-	// Test insert and remove nodes of the linked list
-	list.insert_Node(69,2);
-	list.traverse_List(); 
-	list.insert_Node(70, 3); 
-	list.traverse_List(); 
 	
-	// Test search function 
-	test_Search(list,5,10);
-	
-	// Reverse our linked list and traverse it 
-	printf("Test reverse a linked list");
-	list.reverse_list(); 
+	Linked_List sec_List; 
+	add_First_Test(sec_List, 5, 10);
+	printf("Sec list nodes");
+	sec_List.traverse_List(); 
+	// Deep deep copy assignemnt operator
+	list = sec_List; 
+	printf("list nodes");
+	list.traverse_List(); 
+	list.add_First(69);
+	sec_List.traverse_List();
 	list.traverse_List(); 
 
-	//list.insert_Node(1, 100); 
+	// Move assignment called 
+	list = ret_LList(); 
+	list.traverse_List(); 
+
+	Linked_List list3 = list;
+	list3.add_First(69);
+	list3.traverse_List(); 
 	return 0; 
 
+}
+Linked_List ret_LList() 
+{
+	Linked_List rr_List; 
+	printf("\nMove test function called\n");
+	// Iterate n amount of times search for random numbers 0 to range - 1
+	int num{ 0 };
+	// Push int values between 0 and (range - 1) 
+	for (int i = 0; i < 5; i++)
+	{
+		num = rand() % 10;
+		rr_List.add_First(num);
+	}
+	return rr_List; 
 }
 
 void test_Search(const Linked_List& rr_List, int n, int range) 

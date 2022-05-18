@@ -4,10 +4,79 @@
 
 /* Linked list default constructor initializes pointer members to nullptr*/
 Linked_List::Linked_List()
-	:head{ nullptr }, tail{nullptr}
+	:head{ nullptr }, tail{ nullptr }, size{0}
 {
 	std::cout << "Linked_list default constructor"; 
 }
+
+/* Deep copy constructor passes by const reference linked list copies data into current instance*/
+Linked_List::Linked_List(const Linked_List& rr_List)
+	:head{ nullptr }, tail{ nullptr }, size{0}
+{
+	printf("Deep copy constructor called\n");
+	Node* cursor = rr_List.head; 
+	while (cursor != nullptr) 
+	{
+		// Add data to current structure and inc size
+		this->add_Last(cursor->data); 
+		cursor = cursor->next;
+	}
+}
+
+/* Move constructor passess RR sturcture and gives resources to calling construtor object*/
+Linked_List::Linked_List(Linked_List&& rr_List) 
+{
+	printf("\nMove constructor called\n");
+	// Assign this instances pointers to rr_List pointer memebers 
+	this->size = rr_List.size; 
+	this->head = rr_List.head; 
+	this->tail = rr_List.tail; 
+	// Reassign rr_List pointers to nullptr
+	rr_List.head = nullptr;
+	rr_List.tail = nullptr; 
+	rr_List.size = 0; 
+}
+
+/*Assigment overloaded operator copies data from lvalue onto calling function object list 
+	returns a refences to support assignment chaining */
+Linked_List& Linked_List::operator = (const Linked_List& l_List) 
+{
+	printf("Deep assignement copy called\n");
+	// If this instance list is not empty free it 
+	if (this->head != nullptr) 
+	{
+		this->free_Nodes();
+	} // Avoid self assignment 
+	else if (this != &l_List)
+	{
+		// Copy node data form lvaule onto calling object
+		Node* cursor = l_List.head;
+		while (cursor != nullptr)
+		{
+			// Add data to current structure and inc size
+			this->add_Last(cursor->data);
+			cursor = cursor->next;
+		}
+	}
+	return *this; 
+}
+
+/*Move assignment operators passess RR structures and gives resources to calling function object
+	and returns calling object instance to support assigment chaining */
+Linked_List& Linked_List::operator = (Linked_List&& rr_List) 
+{
+	printf("Move assignment copy called\n");
+	// Assign this instances pointers to rr_List pointer memebers 
+	this->size = rr_List.size;
+	this->head = rr_List.head;
+	this->tail = rr_List.tail;
+	// Reassign rr_List pointers to nullptr
+	rr_List.head = nullptr;
+	rr_List.tail = nullptr;
+	rr_List.size = 0;
+	return *this; 
+}
+
 
 /* Linked list destructor calls free_node function member to destruct each
 	node and deallocate it in the linked list*/
@@ -47,11 +116,16 @@ void Linked_List::free_Nodes()
 		// Assign to next node 
 		doomed = cursor; 
 	}
+	head = nullptr; 
+	tail = nullptr; 
+	size = 0; 
 }
 
 /* Void member function adds a node to head of the linked list*/
 void Linked_List::add_First(int data) 
 {
+	// Increment size
+	this->size++; 
 	Node* temp{nullptr};
 	temp = this->create_Node(data); 
 	if (head == nullptr) 
@@ -71,6 +145,8 @@ void Linked_List::add_First(int data)
 /* Void memeber function will add a node at end of the linked_list*/
 void Linked_List::add_Last(int data_Pram) 
 {
+	// Increment size
+	this->size++;
 	Node* temp = create_Node(data_Pram); 
 	if (tail == nullptr) 
 	{
@@ -98,6 +174,8 @@ void Linked_List::remove_First()
 		head = head->next;
 		// Delete previous head node
 		delete temp;
+		// Decrement size
+		this->size--; 
 	}
 }
 
@@ -121,13 +199,15 @@ void Linked_List::remove_Last()
 		tail = cursor;
 		// Delete old tail node
 		delete temp; 
+		// Decrement size
+		this->size--;
 	}
 }
 
 /* Void function memeber inserts Node index specified by the arugment*/
 void Linked_List::insert_Node(int data, int index) 
 {
-	if (index < 0 || index >= get_Size())
+	if (index < 0 || index >= this->size)
 	{
 		throw out_of_range{};
 	}
@@ -135,7 +215,7 @@ void Linked_List::insert_Node(int data, int index)
 	{
 		add_First(data); 
 	}
-	else if (index == get_Size())
+	else if (index == this->size)
 	{
 		add_Last(data); 
 	}
@@ -152,7 +232,9 @@ void Linked_List::insert_Node(int data, int index)
 		}
 		// Move pointers 
 		temp->next = cursor->next; 
-		cursor->next = temp; 
+		cursor->next = temp;
+		// Increment size
+		this->size++; 
 	}
 }
 
@@ -171,17 +253,10 @@ bool Linked_List::search(const int &data_Pram) const
 	return 0; 
 }
 
-/* int returning function iterates through list and returns its size*/
-int Linked_List::get_Size() 
+/* Int returning getter function returns size of list*/
+int Linked_List::get_Size() const 
 {
-	Node* cursor = head;
-	int count{ 0 }; 
-	while (cursor != nullptr) 
-	{
-		cursor = cursor->next; 
-		count++; 
-	}
-	return count; 
+	return this->size; 
 }
 
 /* Void memeber function iterates through the list compares data if found delete it from the
@@ -197,6 +272,7 @@ void Linked_List::remove_Node(int data)
 		}
 		int data_Found = cursor->data;
 		delete cursor;
+		this->size--; 
 	}
 }
 
@@ -217,16 +293,16 @@ void Linked_List::traverse_List() const
 		std::cout << "[ " << cursor->data << " ]---";
 		cursor = cursor->next; 
 	}
-	std::cout << "\n"; 
+	std::cout << "NULL\n"; 
 }
+
 /* Void function uses the stack data structure to reassign pointers of each node to their prior node*/
 void Linked_List::reverse_list() 
 {
-	int size = this->get_Size(); 
 	std::stack<Node*>loc_Stack;
 	Node* cursor = head; 
 	// Push node addresses onto the stack
-	for (int i = 0; i < size; i++) 
+	for (int i = 0; i < this->size; i++) 
 	{
 		loc_Stack.push(cursor);
 		cursor = cursor->next; 
@@ -235,7 +311,7 @@ void Linked_List::reverse_list()
 	Node* new_Head{ tail };
 	Node* new_Tail{ head }; 
 	// Top and pop stack and reassign pointers 
-	for (int i =0; i < size; i++) 
+	for (int i =0; i < this->size; i++) 
 	{
 		temp = loc_Stack.top(); 
 		loc_Stack.pop(); 
